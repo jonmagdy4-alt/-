@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>مولّد ورقة المحاسبة والمخالصة</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light;--bg:#f6f5f1;--sf:#fff;--tx:#1d1d1b;--mu:#6b6a64;--bd:#d9d6cc;--ac:#0f6e56;--wn:#b45309}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#1a1a18;--sf:#242421;--tx:#ecebe6;--mu:#a3a199;--bd:#3d3c37;--ac:#4cc3a0;--wn:#f0a04b}}
+:root[data-theme="dark]{color-scheme:dark;--bg:#1a1a18;--sf:#242421;--tx:#ecebe6;--mu:#a3a199;--bd:#3d3c37;--ac:#4cc3a0;--wn:#f0a04b}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.6 "Segoe UI",Tahoma,Arial,sans-serif}
+.w{max-width:980px;margin:0 auto;padding:16px}
+h1{font-size:20px;margin:4px 0 12px}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:14px;margin-bottom:14px}
+button{font:inherit;background:var(--ac);color:#fff;border:0;border-radius:8px;padding:8px 16px;cursor:pointer}
+button.s{background:transparent;color:var(--tx);border:1px solid var(--bd)}
+button:disabled{opacity:.5}
+input,select{font:inherit;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:6px;padding:4px 8px;max-width:100%}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.g label{display:block;font-size:13px;color:var(--mu)}.g input{width:100%;box-sizing:border-box}
+.sc{overflow-x:auto}
+table{border-collapse:collapse;width:100%}
+th,td{border:1px solid var(--bd);padding:4px 6px;text-align:center;font-size:13px}
+td input{width:90px;text-align:center}
+.bar{height:8px;background:var(--bd);border-radius:6px;overflow:hidden;margin:8px 0}.bar i{display:block;height:100%;width:0;background:var(--ac)}
+.mu{color:var(--mu);font-size:13px}.wn{color:var(--wn)}
+#sheet{background:#fff;color:#000;padding:18px;border:1px solid #999;font-size:13px}
+#sheet table{margin:8px 0}#sheet th,#sheet td{border:1px solid #444;color:#000}#sheet input{background:#fff;color:#000;border:0;width:70px}
+#sheet .hd{display:flex;justify-content:space-between;align-items:flex-start}
+#sheet .tt{text-align:center;background:#ddd;border:1px solid #444;font-weight:700;padding:3px;margin:8px 0}
+.sg{display:flex;justify-content:space-around;margin-top:46px;font-weight:700;text-align:center;flex-wrap:wrap;gap:30px}
+@media print{body{background:#fff}.no{display:none!important}.w{padding:0;max-width:none}#sheet{border:0}}
+</style>
+</head>
+<body>
+<div class="w">
+<h1 class="no">🧾 مولّد ورقة المحاسبة والمخالصة</h1>
+<div class="card no">
+  <b>1) ارفع PDF سركيهات السيارات</b>
+  <p class="mu">الصفحات اللي فيها أسماء الركاب بتتجاهلها تلقائي. القراءة بتاخد وقت على الملفات الكبيرة (صفحة صفحة).</p>
+  <input type="file" id="f" accept="application/pdf">
+  <button id="go" disabled>ابدأ القراءة</button> <button id="rs" class="s" disabled>كمّل / أعد الفاشلة</button> <button id="st" class="s" disabled>إيقاف</button>
+  <div class="bar"><i id="pb"></i></div><div id="msg" class="mu"></div>
+</div>
+<div class="card no">
+  <b>2) بيانات الورقة</b>
+  <div class="g" style="margin-top:8px">
+    <label>التاريخ<input id="dt"></label>
+    <label>محاسبة ومخالصة رقم<input id="no"></label>
+    <label>مرفق فاتورة رقم<input id="inv"></label>
+    <label>اسم المورد<input id="sup" value="وطنية للنقل الجماعي"></label>
+    <label>المشروع<input id="prj" value="Basement Wadi Yemm Ras El Hekma"></label>
+    <label>الكود<input id="cod" value="578"></label>
+    <label>الخط لو مش واضح في السركي<input id="dr" value="رأس الحكمة"></label>
+    <label>الفترة من<input id="pf" placeholder="1/10/2026"></label>
+    <label>الفترة إلى<input id="pt" placeholder="30/10/2026"></label>
+    <label>نسبة الضريبة %<input id="tx" type="number" value="3"></label>
+    <label>خصم اداري<input id="da" type="number" value="0"></label>
+    <label>خصم سقفي<input id="ds" type="number" value="0"></label>
+    <label style="align-self:end"><input id="tk" type="checkbox" style="width:auto"> تطبيق خصم الضريبة</label>
+  </div>
+</div>
+<div class="card no" id="rv" hidden>
+  <b>3) مراجعة السركيهات المقروءة</b> <span class="mu">(عدّل أي رقم غلط أو شيل العلامة عن سركي مش عايزه)</span>
+  <div class="sc"><table id="rt"></table></div>
+</div>
+<div class="no" style="margin-bottom:10px" id="act" hidden>
+  <button id="pr">طباعة / حفظ PDF</button> <button id="dl" class="s">تحميل نسخة HTML</button>
+</div>
+<div id="sheet" hidden></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const num=v=>{v=parseFloat(String(v??'').replace(/,/g,''));return isNaN(v)?0:v};
+const fmt=n=>n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const cl=s=>String(s||'').replace(/Basements?|Wadi|Yemm|Ras|El|Hekma/gi,' ').replace(/الموقع|والعوده|والعودة|العوده|العودة|خط/g,' ').replace(/[-–_.]/g,' ').replace(/\s+/g,' ').trim();
+const nk=s=>cl(s).replace(/بيص/g,'باص').replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي').replace(/\s/g,'');
+let pages=[],units={},stop=false,pdf=null,sample=null,downloads=null;
+$('dt').value=new Date().toLocaleDateString('en-GB').replace(/\//g,'-');
+try{pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'}catch(e){}
+sample=true;
+const PROMPT=`ده سكان صفحة من ملف سركيهات سيارات (شركة أوراسكوم). ارجع JSON فقط بدون أي كلام آخر.
+لو الصفحة سركي سيارة (جدول أيام الشهر وعنوانه "سرك ايجار سيارات" وفيه الفئة واجمالي الدورات الفردية) ارجع:
+{"is_sarki":true,"type":"نوع السيارة (مثلا اتوبيس / ميكروباص مكيف / ميني باص)","route":"القيمة المكتوبة جوه الخانة اللي عليها عنوان "خط السير" في الصف العلوي من الجدول، وهي الخانة الموجودة على يسار خانة "كود المشروع 578" (مثلا رأس الحكمة أو الضبعة أو القاهرة أو مطروح). ممنوع تاخد الخط من السطر اللي تحتها اللي مكتوب فيه "خط - الموقع - العودة"، وممنوع تاخده من اسم المشروع أو من أي مكان تاني في الصفحة","rate":رقم الفئة,"rounds":رقم اجمالي الدورات الفردية,"total":رقم اجمالي قيمة السركي,"car":"رقم/اسم السائق أو السيارة"}
+لو الصفحة غير ذلك (قائمة أسماء ركاب أو غيرها) ارجع {"is_sarki":false}.
+الفئة هي الرقم المكتوب بخط كبير تحت اسم السائق (زي 4950.00 أو 6285.00 أو 2750.00) وليست إجمالي السركي. خط السير هو أول قيمة مكتوبة في أعلى الصفحة جنب عنوان "خط السير" مباشرة. لو مكتوب جنبها كلمة اسبوعي سيبها زي ما هي.
+الأرقام أرقام إنجليزية بدون فواصل. لو رقم مش واضح ارجع null.`;
+$('f').onchange=async e=>{
+  const fl=e.target.files[0];if(!fl)return;
+  try{pdf=await pdfjsLib.getDocument({data:await fl.arrayBuffer()}).promise;
+    $('msg').textContent='الملف فيه '+pdf.numPages+' صفحة.';$('go').disabled=!sample}
+  catch(err){$('msg').textContent='مقدرتش أفتح الملف.'}
+};
+$('st').onclick=()=>{stop=true};
+async function render(i){const p=await pdf.getPage(i),vp=p.getViewport({scale:1.4}),c=document.createElement('canvas');
+  c.width=vp.width;c.height=vp.height;await p.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;
+  return new Promise(r=>c.toBlob(r,'image/jpeg',.7))}
+function pass(){let p=sessionStorage.getItem('pw');if(p===null){p=prompt('كلمة السر:')||'';sessionStorage.setItem('pw',p)}return p}
+async function read(blob){
+  try{const r=await fetch('/api/read',{method:'POST',headers:{'content-type':'application/octet-stream','x-pass':pass()},body:blob});
+    if(r.status===401){sessionStorage.removeItem('pw');return {error:true,code:'not_granted'}}
+    if(r.status===429)return {error:true,code:'rate_limited'};
+    if(r.status===503)return {error:true,code:'api_key_missing'};
+    if(!r.ok)return {error:true,code:'upstream_error'};
+    return await r.json()}
+  catch(e){return {error:true,code:'upstream_error'}}}
+const STOPC=['rate_limited','not_granted','session_expired','sampling_disabled','not_declared','api_key_missing'];
+const WHY={rate_limited:'وصلت لحد الاستخدام أو الطلبات كتير. استنى شوية وبعدين اضغط "كمّل".',not_granted:'كلمة السر غلط. اعمل Refresh وجرب تاني.',session_expired:'الجلسة خلصت. اعمل Refresh.',sampling_disabled:'القراءة الآلية مقفولة.',not_declared:'القراءة الآلية مش متاحة.',api_key_missing:'خدمة الذكاء الاصطناعي لم تُفعّل بعد. أضف ANTHROPIC_API_KEY في Railway Variables.'};
+function left(){const l=[];for(let i=1;i<=pdf.numPages;i++)if(!pages[i]||pages[i].error)l.push(i);return l}
+async function run(todo){
+  stop=false;$('go').disabled=true;$('rs').disabled=true;$('st').disabled=false;
+  const N=todo.length;let next=0,done=0,why='';
+  async function w(){while(!stop){const i=todo[next++];if(i===undefined)return;
+    let r;try{r=await read(await render(i))}catch(e){r={error:true,code:'render'}}
+    if(r.error&&STOPC.includes(r.code)){stop=true;why=WHY[r.code]||'حدث خطأ أثناء الاتصال.';return}
+    pages[i]={n:i,use:true,...r};done++;
+    $('pb').style.width=(done/N*100)+'%';$('msg').textContent='اتقرا '+done+' من '+N;
+    if(done%5===0)draw()}}
+  await Promise.all([w(),w()]);
+  const l=left();$('go').disabled=false;$('st').disabled=true;$('rs').disabled=!l.length;
+  $('msg').textContent=why||(l.length?'فيه '+l.length+' صفحة لسه مش مقروءة. اضغط "كمّل".':'خلصت القراءة. راجع الأرقام تحت.');draw()}
+$('go').onclick=()=>{pages=[];run(Array.from({length:pdf.numPages},(_,i)=>i+1))};
+$('rs').onclick=()=>run(left());
+function up(i,k,v){const p=pages[i];p[k]=(k==='use')?v:(k==='type'||k==='route'||k==='car')?v:num(v);draw(true)}
+function groups(){const m={},top=o=>Object.keys(o).sort((a,b)=>o[b]-o[a])[0];
+  pages.filter(p=>p&&p.is_sarki&&p.use).forEach(p=>{
+    const raw=String(p.route||''),wk=/اسبوع/.test(raw),rt=cl(raw.replace(/اسبوع[يى]/g,''))||$('dr').value,
+    ty=String(p.type||'').trim().replace(/بيص/g,'باص'),k=nk(ty)+'|'+num(p.rate),
+    g=m[k]=m[k]||{k,rate:num(p.rate),cnt:0,sum:0,T:{},R:{},wk:0};
+    g.cnt+=num(p.rounds);g.sum+=num(p.total);g.T[ty]=(g.T[ty]||0)+1;g.R[rt]=(g.R[rt]||0)+1;if(wk)g.wk++});
+  return Object.values(m).map(g=>({...g,type:top(g.T),route:top(g.R)}))}
+function draw(keep){
+  const ps=pages.filter(p=>p&&(p.is_sarki||p.error));
+  if(!keep){$('rv').hidden=!ps.length;
+    $('rt').innerHTML='<tr><th>استخدم</th><th>صفحة</th><th>النوع</th><th>الخط</th><th>الفئة</th><th>الدورات</th><th>القيمة</th><th></th></tr>'+
+    ps.map(p=>p.error?`<tr><td></td><td>${p.n}</td><td colspan="6" class="wn">فشلت قراءة الصفحة (${p.code||""}). اضغط "كمّل" تعيد المحاولة.</td></tr>`:
+    `<tr><td><input type="checkbox" ${p.use?'checked':''} onchange="up(${p.n},'use',this.checked)" style="width:auto"></td><td>${p.n}</td>
+    <td><input value="${esc(p.type)}" onchange="up(${p.n},'type',this.value)"></td><td><input value="${esc(p.route)}" onchange="up(${p.n},'route',this.value)"></td>
+    <td><input value="${p.rate??''}" onchange="up(${p.n},'rate',this.value)" style="width:70px"></td>
+    <td><input value="${p.rounds??''}" onchange="up(${p.n},'rounds',this.value)" style="width:70px"></td>
+    <td><input value="${p.total??''}" onchange="up(${p.n},'total',this.value)" style="width:90px"></td>
+    <td class="wn">${Math.abs(num(p.rounds)*num(p.rate)-num(p.total))>1?'⚠ مش متطابق ':''}${cl(p.route)?'':'⚠ الخط مش واضح'}</td></tr>`).join('')}
+  sheet()}
+const O=['','واحد','اثنان','ثلاثة','أربعة','خمسة','ستة','سبعة','ثمانية','تسعة','عشرة','أحد عشر','اثنا عشر','ثلاثة عشر','أربعة عشر','خمسة عشر','ستة عشر','سبعة عشر','ثمانية عشر','تسعة عشر'];
+const T=['','','عشرون','ثلاثون','أربعون','خمسون','ستون','سبعون','ثمانون','تسعون'];
+const H=['','مائة','مائتان','ثلاثمائة','أربعمائة','خمسمائة','ستمائة','سبعمائة','ثمانمائة','تسعمائة'];
+function b1000(n){const p=[],h=Math.floor(n/100),r=n%100;if(h)p.push(H[h]);
+  if(r){if(r<20)p.push(O[r]);else{const u=r%10,t=Math.floor(r/10);p.push(u?O[u]+' و'+T[t]:T[t])}}return p.join(' و')}
+function grp(n,a){if(n===1)return a[0];if(n===2)return a[1];return b1000(n)+' '+(n>=3&&n<=10?a[2]:a[0])}
+function tafqeet(x){const n=Math.floor(x),q=Math.round((x-n)*100);if(!n&&!q)return 'صفر جنيه';const p=[];
+  const m=Math.floor(n/1e6),k=Math.floor(n%1e6/1000),r=n%1000;
+  if(m)p.push(grp(m,['مليون','مليونان','ملايين']));if(k)p.push(grp(k,['ألف','ألفان','آلاف']));if(r)p.push(b1000(r));
+  return p.join(' و')+' جنيه و'+String(q).padStart(2,'0')+'/100 قرش'}
+function sheet(){
+  const G=groups();if(!G.length){$('sheet').hidden=true;$('act').hidden=true;return}
+  const pf=$('pf').value,pt=$('pt').value;let tot=0;
+  const rows=G.map((g,i)=>{const t=g.cnt*g.rate;tot+=t;const u=units[g.k]||(g.wk?'اسبوعي':'يومي');
+    return `<tr><td>${fmt(t)}</td><td>${fmt(g.rate).replace('.00','')}</td><td>${+g.cnt.toFixed(2)}</td>
+    <td><input value="${esc(u)}" onchange="units['${esc(g.k).replace(/'/g,"\\'")}']=this.value"></td><td>${esc(g.type)}</td><td>${esc(g.route)}</td><td>${esc(pf)}</td><td>${esc(pt)}</td></tr>`}).join('');
+  const tax=$('tk').checked?tot*num($('tx').value)/100:0,da=num($('da').value),ds=num($('ds').value),net=tot-tax-da-ds;
+  $('sheet').innerHTML=`<div class="hd"><div><b>Orascom Construction</b></div><div style="text-align:left"><b>${esc($('prj').value)}</b><br>Code : ${esc($('cod').value)}</div></div>
+  <div class="tt">محاسبة ومخالصة رقم ( ${esc($('no').value)} )</div>
+  <div style="display:flex;justify-content:space-between"><span>التاريخ: ${esc($('dt').value)}</span><span>مرفق فاتورة رقم: ${esc($('inv').value)}</span></div>
+  <p>اقر انا الموقع ادناه : ${esc($('sup').value)}<br>في مشروع ${esc($('prj').value)} كود ${esc($('cod').value)}.
+  بأنه قد اجريت عمل الحساب النهائي عن الاعمال التي قمت بها للشركة كما هو موضح فيما يلي والمبالغ التي تسلمتها من الشركة.</p>
+  <div class="sc"><table><tr><th>الاجمالي</th><th>المبلغ</th><th>عدد</th><th>يومي / اسبوعي</th><th>النوع</th><th>الدورة</th><th>الفترة من</th><th>الى</th></tr>${rows}
+  <tr><td>${fmt(tot)}</td><td colspan="7">الاجمـــــــالــــــــــي</td></tr>
+  <tr><td>${fmt(tax)}</td><td colspan="7">خصم ${esc($('tx').value)}% ضرائب ارباح تجارية ( يخضع للنظام الدفعات المقدمة )</td></tr>
+  <tr><td>${fmt(da)}</td><td colspan="7">خصم اداري ( مرفق مذكرات الخصم )</td></tr>
+  <tr><td>${fmt(ds)}</td><td colspan="7">خصم سقفي ( مرفق مذكرات الخصم )</td></tr>
+  <tr><td>${fmt(net)}</td><td colspan="7">الصافي : فقط ${tafqeet(net)} لا غير</td></tr></table></div>
+  <p>تسلمت بموجب ايصال رقم ........ وتاريخه ........ سنة ........<br>صرت خالصا وليس لي الرجوع على شركة اوراسكوم بأية مبالغ اخري وقد تحررت هذة المخالصة للتعامل بها عند اللزوم.</p>
+  <p style="text-align:left"><b>المقر بما فيه</b></p>
+  <div class="sg"><div>المدير الاداري<br><br>مدير عام المشروع</div><div>مدير الحسابات<br><br>Cost Control</div><div>الحسابات<br><br>مدير اداري المنطقة<br><br>Business Unit Director</div></div>`;
+  $('sheet').hidden=false;$('act').hidden=false}
+['dt','no','inv','sup','prj','cod','dr','pf','pt','tx','da','ds','tk'].forEach(id=>$(id).oninput=()=>sheet());
+$('pr').onclick=()=>window.print();
+$('dl').onclick=()=>{const h='<!DOCTYPE html><html lang="ar" dir="rtl"><meta charset="utf-8"><body style="font-family:Tahoma,Arial">'+$('sheet').innerHTML+'</body></html>';
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([h],{type:'text/html'}));a.download='muhasba.html';a.click()};
+</script>
+</body>
+</html>
